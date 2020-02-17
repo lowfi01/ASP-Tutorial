@@ -1,0 +1,20 @@
+﻿@model IEnumerable<ASP_Tutorial.Models.Customer>
+@{
+    ViewBag.Title = "Customers";
+}
+
+<h2>Customers</h2>
+
+@if (!Model.Any())
+{
+    <p>We don't have any customers yet.</p>
+}
+else
+{
+<ul>
+    @foreach (var customer in @Model)
+    {
+        @Html.ActionLink(customer.Name, "Details", "Customer", new { id = customer.Id }, null)
+    }
+</ul>
+}
