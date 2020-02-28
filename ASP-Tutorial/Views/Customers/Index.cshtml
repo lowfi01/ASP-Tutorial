@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ASP_Tutorial.Models.Customer>
+﻿@model System.Collections.Generic.List<ASP_Tutorial.Customer>
 @{
     ViewBag.Title = "Customers";
 }
@@ -11,10 +11,25 @@
 }
 else
 {
-<ul>
-    @foreach (var customer in @Model)
-    {
-        @Html.ActionLink(customer.Name, "Details", "Customer", new { id = customer.Id }, null)
-    }
-</ul>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Discount Rate</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var customer in @Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(customer.Name, "Details", "Customer", new { id = customer.Id }, null)</td>
+                <td>@customer.MembershipType.DiscountRate%</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+       
 }

@@ -10,31 +10,48 @@ namespace ASP_Tutorial.Controllers
 {
     public class CustomersController : Controller
     {
+
+        private Customer _context;
+
+        public CustomersController()
+        {
+            _context = new Customer();
+        }
+
+        public ActionResult New()
+        {
+            return View();
+        }
+
         public ViewResult Index()
         {
-            var customers = GetCustomers();
+            //var customers = (from c in _context.
+            //    select c).ToList();
+
+            List<Customer> customers = null;
+
+            var context = new Entities();
+            customers = context.Customers.ToList();
+            context = new Entities();
 
             return View(customers);
         }
 
         public ActionResult Details(int id)
         {
-            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+            List<Customer> customers = null;
+            using (var context = new Entities())
+            {
+                customers = (from c in context.Customers
+                    select c).ToList();
+            }
 
-            if (customer == null)
-                return HttpNotFound();
+            var customer = customers.SingleOrDefault(c => c.Id == id);
 
             return View(customer);
         }
 
-        private IEnumerable<Customer> GetCustomers()
-        {
-            return new List<Customer>
-            {
-                new Customer { Id = 1, Name = "John Smith" },
-                new Customer { Id = 2, Name = "Mary Williams" }
-            };
-        }
+       
     }
 
 }
